@@ -2,6 +2,7 @@
 #
 # Copyright (C) 2016 The CyanogenMod Project
 # Copyright (C) 2017 The LineageOS Project
+# Copyright (C) 2019 The ion-OS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,9 +26,9 @@ VENDOR=xiaomi
 MY_DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$MY_DIR" ]]; then MY_DIR="$PWD"; fi
 
-LINEAGE_ROOT="$MY_DIR"/../../..
+ION_ROOT="$MY_DIR"/../../..
 
-HELPER="$LINEAGE_ROOT"/vendor/lineage/build/tools/extract_utils.sh
+HELPER="$ION_ROOT"/vendor/ion/build/tools/extract_utils.sh
 if [ ! -f "$HELPER" ]; then
     echo "Unable to find helper script at $HELPER"
     exit 1
@@ -56,23 +57,23 @@ if [ -z "$SRC" ]; then
 fi
 
 # Initialize the helper
-setup_vendor "$DEVICE" "$VENDOR" "$LINEAGE_ROOT" false "$CLEAN_VENDOR"
+setup_vendor "$DEVICE" "$VENDOR" "$ION_ROOT" false "$CLEAN_VENDOR"
 
 extract "$MY_DIR"/proprietary-files.txt "$SRC" "$SECTION"
 extract "$MY_DIR"/proprietary-files-qc.txt "$SRC" "$SECTION"
 
 # Hax for cam configs
-CAMERA2_SENSOR_MODULES="$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib/libmmcamera2_sensor_modules.so
+CAMERA2_SENSOR_MODULES="$ION_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib/libmmcamera2_sensor_modules.so
 
 sed -i "s|/system/etc/camera/|/vendor/etc/camera/|g" "$CAMERA2_SENSOR_MODULES"
 
 # Hax for disable colorspace
-EGL_BLOB_1="$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib64/egl/eglSubDriverAndroid.so 
-EGL_BLOB_2="$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib64/egl/eglsubAndroid.so
-EGL_BLOB_3="$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib64/egl/libRBEGL_adreno.so
-EGL_BLOB_4="$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib/egl/eglSubDriverAndroid.so
-EGL_BLOB_5="$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib/egl/eglsubAndroid.so
-EGL_BLOB_6="$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib/egl/libRBEGL_adreno.so
+EGL_BLOB_1="$ION_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib64/egl/eglSubDriverAndroid.so 
+EGL_BLOB_2="$ION_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib64/egl/eglsubAndroid.so
+EGL_BLOB_3="$ION_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib64/egl/libRBEGL_adreno.so
+EGL_BLOB_4="$ION_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib/egl/eglSubDriverAndroid.so
+EGL_BLOB_5="$ION_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib/egl/eglsubAndroid.so
+EGL_BLOB_6="$ION_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib/egl/libRBEGL_adreno.so
 
 sed -i "s|EGL_KHR_gl_colorspace|DIS_ABL_ED_colorspace|g" "$EGL_BLOB_1" "$EGL_BLOB_2" "$EGL_BLOB_3" "$EGL_BLOB_4" "$EGL_BLOB_5" "$EGL_BLOB_6"
 

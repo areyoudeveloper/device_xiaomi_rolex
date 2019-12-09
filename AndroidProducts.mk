@@ -14,4 +14,8 @@
 # limitations under the License.
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_rolex.mk
+    $(LOCAL_DIR)/ion_rolex.mk
+
+COMMON_LUNCH_CHOICES := \
+    ion_rolex-eng \
+    ion_rolex-userdebug
