@@ -403,4 +403,9 @@
     <string-array name="config_deviceDisabledComponents" translatable="false">
         <item>com.google.android.gms/com.google.android.gms.nearby.messages.service.NearbyMessagesService</item>
     </string-array>
+
+    <!-- Whether device supports sensor based doze customizations -->
+    <bool name="config_dozePulsePickup">true</bool>
+    <bool name="config_dozePulseTilt">true</bool>
+    <bool name="config_dozePulseProximity">true</bool>
 </resources>
