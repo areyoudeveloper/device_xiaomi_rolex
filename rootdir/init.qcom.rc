@@ -25,13 +25,19 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+import /init.spectrum.rc
 import /vendor/etc/init/hw/init.qcom.usb.rc
 import /vendor/etc/init/hw/init.target.rc
 import /vendor/etc/init/hw/init.safailnet.rc
 
 on early-init
     write /proc/sys/kernel/sched_boost 1
-
+    chmod -R 755 /system/bin/spa
+    chmod -R 755 /system/bin/fstrim
+    chmod +x /system/bin/spa
+    chmod +x /system/bin/fstrim
+    chown -R root:root /system/bin/fstrim
+    chown -R root:root /system/bin/spa
     mount debugfs debugfs /sys/kernel/debug
     chmod 0755 /sys/kernel/debug
     chown root system /dev/kmsg
@@ -39,7 +45,7 @@ on early-init
 
 on init
     write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
-
+    
 on post-fs
     chmod 0755 /sys/kernel/debug/tracing
    
@@ -56,6 +62,8 @@ on early-boot
     chown root audio /sys/kernel/boot_adsp/boot
 
     exec -- /vendor/bin/init.qcom.early_boot.sh
+    exec u:r:init:s0 -- /init.optimkang.sh
+    exec u:r:init:s0 -- /init.spectrum.sh
 
     # for backward compatibility
     chown system system /persist/sensors
